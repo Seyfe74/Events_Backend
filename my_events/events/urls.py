@@ -10,5 +10,7 @@ urlpatterns =[
     path('choosenEvents/', views.add_choosenEvent),
     path('customer/', views.register_customer),
     path('', views.add_event),
-    path('register', views.registration)
+    path('register', views.registration),
+    path('update/<int:id>', views.update_events),
+    path('delete/<int:id>', views.delete_events)
 ]

@@ -106,6 +106,53 @@ def get_all_comments(request):
         return Response(serializer.data)
 
 
+@api_view(['PUT', ])
+@permission_classes([AllowAny])
+def update_events(request, id):
+    try:
+        single_event = Event.objects.get( id = id)
+    except Event.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'PUT':
+        serializer = EventSerializer(single_event, data=request.data)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data["Success"] = "update successful"
+            return Response (data = data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['DELETE', ])
+@permission_classes([AllowAny])
+def delete_events(request, id):
+    try:
+        single_event = Event.objects.get( id = id)
+    except Event.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'DELETE':
+        operation = single_event.delete()
+        data = {}
+        if operation:
+            data["Success"] = "Delete successful"
+        else:
+            data["failure"] = "Delete failed"
+        return Response (data = data)
+        
+
+
+
+
+
+        
+
+
+
+
+
+
+
 
 
 
